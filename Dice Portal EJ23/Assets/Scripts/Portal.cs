@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Assets.Scripts
@@ -9,6 +11,14 @@ namespace Assets.Scripts
         public int portalId;
         public int destinyId;
         public bool isHidden;
+
+        public TextMeshProUGUI t;
+
+        private void Awake()
+        {
+            Transform txt = transform.GetChild(0).GetChild(0);
+            t = txt.GetComponent<TextMeshProUGUI>();
+        }
 
         public void ChangeDestiny(int portalId)
         {
@@ -29,6 +39,11 @@ namespace Assets.Scripts
                     GameManager.Instance.MovePlayerToPortal(destinyId);
                 }
             }
+        }
+
+        private void Update()
+        {
+            t.text = destinyId.ToString();
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Random = UnityEngine.Random;
 
 namespace Assets.Scripts
 {
@@ -21,7 +23,15 @@ namespace Assets.Scripts
         // Use this for initialization
         void Start()
         {
+            
             player = GameObject.FindGameObjectWithTag("Player").transform;
+            Portal[] pt = FindObjectsOfType<Portal>();
+            for (int i = 0; i < pt.Length; i++)
+            {
+                pt[i].portalId = i;
+                pt[i].destinyId = Random.Range(0,pt.Length);
+            }
+            portals = new List<Portal>(pt);
         }
 
         public void MovePlayerToPortal(int portalId) 
@@ -58,6 +68,14 @@ namespace Assets.Scripts
             }
 
             return portal;
+        }
+
+        private void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
         }
     }
 }
